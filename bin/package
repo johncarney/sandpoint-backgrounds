@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+
+from typing import TypedDict, NotRequired
+
+import json
+import yaml
+
+
+SourceBackground = TypedDict("SourceBackground", {
+    "id":          NotRequired[str],
+    "name":        str,
+    "traits":      list[str],
+    "description": str,
+    "src":         str })
+
+PathbuilderBackground = TypedDict("PathbuilderBackground", {
+    "databaseID":  int,
+    "id":          str,
+    "name":        str,
+    "traits":      str,
+    "boost_ref_1": str,
+    "boost_ref_2": str,
+    "freeFeatID":  str,
+    "skill":       str,
+    "lore":        str,
+    "description": str,
+    "src":         str })
+
+CustomBackgroundPack = TypedDict("CustomBackgroundPack", {
+    "customPackID":          str,
+    "customPackName":        str,
+    "listCustomBackgrounds": list[PathbuilderBackground] })
+
+def load_incoming(filepath: str) -> list[SourceBackground]:
+    with open(filepath, "r", encoding="utf-8") as file:
+        incoming = yaml.safe_load(file)
+    return incoming
+
+
+def load_current(filepath: str) -> CustomBackgroundPack:
+    with open(filepath, "r", encoding="utf-8") as file:
+        current = json.load(file)
+    return current
+
+
+def find_source_background(target:  PathbuilderBackground,
+                           sources: list[SourceBackground]) -> SourceBackground|None:
+    for source in sources:
+        if source["name"] == target["name"]:
+            return source
+        if "id" in source and source["id"] == target["id"]:
+            return source
+
+    return None
+
+
+def normalize_background_description(description: str) -> str:
+    return description.replace("\n\n", "<br>").replace("\n", " ")
+
+
+def update_background(target:  PathbuilderBackground,
+                      sources: list[SourceBackground]) -> PathbuilderBackground:
+    source: SourceBackground|None = find_source_background(target, sources)
+    if source is None:
+        return target
+
+    target = target.copy()
+    if "id" in source:
+        target["id"] = source["id"]
+    target["name"] = source["name"]
+    target["traits"] = ", ".join(source["traits"])
+    target["description"] = normalize_background_description(source["description"])
+    target["src"] = source["src"]
+    return target
+
+
+def update_backgrounds(sources: list[SourceBackground],
+                       current: list[PathbuilderBackground] ) -> list[PathbuilderBackground]:
+    return [update_background(background, sources) for background in current]
+
+
+def main():
+    incoming = load_incoming("backgrounds.yml")
+    current = load_current("Seven-Dooms-for-Sandpoint-Backgrounds.json")
+    current["listCustomBackgrounds"] = update_backgrounds(incoming,
+                                                          current["listCustomBackgrounds"])
+    print(json.dumps(current, indent=2))
+
+
+if __name__ == '__main__':
+    main()
