@@ -10,6 +10,7 @@ SourceBackground = TypedDict("SourceBackground", {
     "id":          NotRequired[str],
     "name":        str,
     "traits":      list[str],
+    "lore":        NotRequired[str],
     "description": str,
     "src":         str })
 
@@ -67,6 +68,8 @@ def update_background(target:  PathbuilderBackground,
     target = target.copy()
     if "id" in source:
         target["id"] = source["id"]
+    if "lore" in source:
+        target["lore"] = source["lore"]
     target["name"] = source["name"]
     target["traits"] = ", ".join(source["traits"])
     target["description"] = normalize_background_description(source["description"])
