@@ -84,7 +84,7 @@ def update_backgrounds(sources: list[SourceBackground],
 
 def main():
     incoming = load_incoming("backgrounds.yml")
-    current = load_current("Seven-Dooms-for-Sandpoint-Backgrounds.json")
+    current = load_current("sandpoint-backgrounds.json")
     current["listCustomBackgrounds"] = update_backgrounds(incoming,
                                                           current["listCustomBackgrounds"])
     print(json.dumps(current, indent=2))

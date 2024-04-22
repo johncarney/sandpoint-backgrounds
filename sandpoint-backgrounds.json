@@ -1,0 +1,110 @@
+{
+  "customPackID": "bb0119bb-78fa-4a01-b537-487294f6007e",
+  "customPackName": "Hometown Backgrounds",
+  "listCustomBackgrounds": [
+    {
+      "databaseID": 1,
+      "id": "ffb40f9c-0811-4e0c-a40b-f935194b6dbc",
+      "name": "Cathedral Child",
+      "traits": "Rare",
+      "boost_ref_1": "5",
+      "boost_ref_2": "4",
+      "freeFeatID": "GENERAL_Battle Medicine",
+      "skill": "Religion",
+      "lore": "Scribing",
+      "description": "Choose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.<br>You're trained in the Religion skill and the Scribing Lore skill. You gain the Battle Medicine skill feat.",
+      "src": "Custom"
+    },
+    {
+      "databaseID": 1,
+      "id": "b0105dfa-a8d7-415f-831f-47b83a066679",
+      "name": "Curious Apprentice",
+      "traits": "Rare",
+      "boost_ref_1": "3",
+      "boost_ref_2": "0",
+      "freeFeatID": "GENERAL_Hefty Hauler",
+      "skill": "Occultism",
+      "lore": "Poetry",
+      "description": "Choose two ability boosts. One must be to Intelligence or Strength, and one is a free ability boost.<br>You're trained in the Occultism skill and the Poetry Lore skill. You gain the Hefty Hauler skill feat.",
+      "src": "Custom"
+    },
+    {
+      "databaseID": 1,
+      "id": "ef8a4bf7-a6e8-4f95-91a8-d4183c9e1664",
+      "name": "Eager Scofflaw",
+      "traits": "Rare",
+      "boost_ref_1": "1",
+      "boost_ref_2": "5",
+      "freeFeatID": "GENERAL_Bon Mot",
+      "skill": "Thievery",
+      "lore": "Underworld",
+      "description": "Choose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.<br>You're trained in the Thievery skill and the Underworld Lore skill. You gain the Bon Mot skill feat.",
+      "src": "Custom"
+    },
+    {
+      "databaseID": 1,
+      "id": "f882ea7e-dbf2-49b4-b413-9143b1506c61",
+      "name": "Lost Coast Local",
+      "traits": "Rare",
+      "boost_ref_1": "2",
+      "boost_ref_2": "4",
+      "freeFeatID": "GENERAL_Hobnobber",
+      "skill": "Society",
+      "lore": "Hometown",
+      "description": "Choose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.<br>You're trained in the Society skill and the Hometown Lore skill. You gain the Hobnobber skill feat.",
+      "src": "Custom"
+    },
+    {
+      "databaseID": 1,
+      "id": "3370362b-0f81-47f6-9a17-9902fd7ec292",
+      "name": "Militia Member",
+      "traits": "Rare",
+      "boost_ref_1": "0",
+      "boost_ref_2": "4",
+      "freeFeatID": "GENERAL_Lie to Me",
+      "skill": "Athletics",
+      "lore": "Sailing",
+      "description": "Choose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.<br>You're trained in the Athletics skill and the Sailing Lore skill. You gain the Lie to Me skill feat.",
+      "src": "Custom"
+    },
+    {
+      "databaseID": 1,
+      "id": "74294618-39fb-4dda-8178-48a27a281c4e",
+      "name": "Newcomer",
+      "traits": "Rare",
+      "boost_ref_1": "2",
+      "boost_ref_2": "3",
+      "freeFeatID": "GENERAL_Additional Lore",
+      "skill": "Diplomacy",
+      "lore": "Library",
+      "description": "Choose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.<br>You're trained in the Diplomacy skill and the Library Lore skill. You gain the Additional Lore skill feat\u2014the lore you choose represents the interest and focus of study that drew you to the region.",
+      "src": "Custom"
+    },
+    {
+      "databaseID": 1,
+      "id": "e14cb6df-99d2-4c4e-b8d1-1c5479173612",
+      "name": "Runelord Scholar",
+      "traits": "Rare",
+      "boost_ref_1": "1",
+      "boost_ref_2": "3",
+      "freeFeatID": "GENERAL_Multilingual",
+      "skill": "Arcana",
+      "lore": "Academia",
+      "description": "Choose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.<br>You're trained in the Arcana skill and the Academia Lore skill. You gain the Multilingual skill feat, but one of the languages you gain from this feat must belong to the ancient empire that once occupied this region.",
+      "src": "Custom"
+    },
+    {
+      "databaseID": 1,
+      "id": "18f4394b-16fa-4872-adc9-79d8edaa6dbd",
+      "name": "Scarnetti-Connected",
+      "traits": "Rare",
+      "boost_ref_1": "5",
+      "boost_ref_2": "1",
+      "freeFeatID": "GENERAL_Charming Liar",
+      "skill": "Intimidation",
+      "lore": "Mercantile",
+      "description": "Choose two ability boosts. One must be to Charisma or Dexterity, and one is a free ability boost.<br>You're trained in the Intimidation skill and the Mercantile Lore skill. You gain the Charming Liar skill feat.",
+      "src": "Custom"
+    }
+  ]
+}
