@@ -3,10 +3,10 @@
 from typing import TypedDict, NotRequired
 
 import json
+import re
 import yaml
 
-
-SourceBackground = TypedDict("SourceBackground", {
+Source = TypedDict("Source", {
     "id":          NotRequired[str],
     "name":        str,
     "traits":      list[str],
@@ -14,7 +14,7 @@ SourceBackground = TypedDict("SourceBackground", {
     "description": str,
     "src":         str })
 
-PathbuilderBackground = TypedDict("PathbuilderBackground", {
+Background = TypedDict("Background", {
     "databaseID":  int,
     "id":          str,
     "name":        str,
@@ -27,25 +27,31 @@ PathbuilderBackground = TypedDict("PathbuilderBackground", {
     "description": str,
     "src":         str })
 
-CustomBackgroundPack = TypedDict("CustomBackgroundPack", {
+BackgroundPack = TypedDict("BackgroundPack", {
     "customPackID":          str,
     "customPackName":        str,
-    "listCustomBackgrounds": list[PathbuilderBackground] })
+    "listCustomBackgrounds": list[Background] })
 
-def load_incoming(filepath: str) -> list[SourceBackground]:
+
+def load_sources(filepath: str) -> list[Source]:
+    """Loads source backgrounds from the given YAML file."""
     with open(filepath, "r", encoding="utf-8") as file:
-        incoming = yaml.safe_load(file)
-    return incoming
+        sources = yaml.safe_load(file)
+    return sources
 
 
-def load_current(filepath: str) -> CustomBackgroundPack:
+    """Loads a backgrounds pack from the given JSON file."""
     with open(filepath, "r", encoding="utf-8") as file:
-        current = json.load(file)
-    return current
+    return pack
 
 
-def find_source_background(target:  PathbuilderBackground,
-                           sources: list[SourceBackground]) -> SourceBackground|None:
+def find_matching_source(target:  Background,
+                         sources: list[Source]) -> Source|None:
+    """
+    Looks for a source background that matches the target background.
+    If no match is found, it returns None. Backgrounds are considered
+    matching if they have the same name or ID.
+    """
     for source in sources:
         if source["name"] == target["name"]:
             return source
@@ -55,13 +61,19 @@ def find_source_background(target:  PathbuilderBackground,
     return None
 
 
-def normalize_background_description(description: str) -> str:
-    return description.replace("\n\n", "<br>").replace("\n", " ")
+def normalize_description(description: str) -> str:
+    """
+    Replaces sequences of two or more line breaks with HTML line breaks
+    and reduces all other whitespace to a single space.
+    """
+    return re.sub(r"\s+", " ", re.sub(r"\n{2,}", "<br>", description))
 
 
-def update_background(target:  PathbuilderBackground,
-                      sources: list[SourceBackground]) -> PathbuilderBackground:
-    source: SourceBackground|None = find_source_background(target, sources)
+def update_background(target: Background, source: Source|None) -> Background:
+    """
+    Returns a copy of the target background that incorporates changes
+    from the source background.
+    """
     if source is None:
         return target
 
@@ -72,23 +84,41 @@ def update_background(target:  PathbuilderBackground,
         target["lore"] = source["lore"]
     target["name"] = source["name"]
     target["traits"] = ", ".join(source["traits"])
-    target["description"] = normalize_background_description(source["description"])
+    target["description"] = normalize_description(source["description"])
     target["src"] = source["src"]
     return target
 
 
-def update_backgrounds(sources: list[SourceBackground],
-                       current: list[PathbuilderBackground] ) -> list[PathbuilderBackground]:
-    return [update_background(background, sources) for background in current]
+def update_background_from_sources(target:  Background,
+                                   sources: list[Source]) -> Background:
+    """
+    Searches for a source background that matches the target background
+    and returns the updated target.
+    """
+    return update_background(target, find_matching_source(target, sources))
+
+
+def update_backgrounds(sources: list[Source],
+                       pack:    list[Background] ) -> list[Background]:
+    """
+    Updates the backgrounds in the pack with information from the
+    source backgrounds.
+    """
+    return [
+        update_background_from_sources(background, sources)
+        for background in pack
+    ]
 
 
 def main():
-    incoming = load_incoming("backgrounds.yml")
-    current = load_current("sandpoint-backgrounds.json")
-    current["listCustomBackgrounds"] = update_backgrounds(incoming,
-                                                          current["listCustomBackgrounds"])
-    print(json.dumps(current, indent=2))
+    sources = load_sources("backgrounds.yml")
+    pack = load_pack("sandpoint-backgrounds.json")
+    pack["listCustomBackgrounds"] = update_backgrounds(
+        sources,
+        pack["listCustomBackgrounds"]
+    )
+    print(json.dumps(pack, indent=2))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
