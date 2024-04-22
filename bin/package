@@ -1,18 +1,30 @@
 #!/usr/bin/env python3
 
-from typing import TypedDict, NotRequired
+from typing import TypedDict, NotRequired, Optional
+from dataclasses import dataclass, field
 
 import json
 import re
 import yaml
 
-Source = TypedDict("Source", {
-    "id":          NotRequired[str],
-    "name":        str,
-    "traits":      list[str],
-    "lore":        NotRequired[str],
-    "description": str,
-    "src":         str })
+
+@dataclass(eq=True, frozen=True, kw_only=True)
+class Source:
+    id:          Optional[str] = field(default=None)
+    name:        str
+    traits:      list[str]     = field(default_factory=lambda: ["3rd Party"])
+    lore:        Optional[str] = field(default=None)
+    description: str
+    src:         str           = field(default="Custom")
+
+    @property
+    def normalized_description(self) -> str:
+        """
+        Replaces sequences of two or more line breaks with HTML line breaks
+        and reduces all other whitespace to a single space.
+        """
+        return re.sub(r"\s+", " ", re.sub(r"\n{2,}", "<br>", self.description))
+
 
 Background = TypedDict("Background", {
     "databaseID":  int,
@@ -27,21 +39,43 @@ Background = TypedDict("Background", {
     "description": str,
     "src":         str })
 
+@dataclass(kw_only=True)
+class BG:
+    databaseID:  int
+    id:          str
+    name:        str
+    traits:      str
+    boost_ref_1: str
+    boost_ref_2: str
+    freeFeatID:  str
+    skill:       str
+    lore:        str
+    description: str
+    src:         str
+
 BackgroundPack = TypedDict("BackgroundPack", {
     "customPackID":          str,
     "customPackName":        str,
     "listCustomBackgrounds": list[Background] })
 
+@dataclass
+class BGPack:
+    customPackID:          str
+    customPackName:        str
+    listCustomBackgrounds: list[BG]
+
 
 def load_sources(filepath: str) -> list[Source]:
     """Loads source backgrounds from the given YAML file."""
     with open(filepath, "r", encoding="utf-8") as file:
-        sources = yaml.safe_load(file)
+        sources = [Source(**attrs) for attrs in yaml.safe_load(file)]
     return sources
 
 
+def load_pack(filepath: str) -> BackgroundPack:
     """Loads a backgrounds pack from the given JSON file."""
     with open(filepath, "r", encoding="utf-8") as file:
+        pack = json.load(file)
     return pack
 
 
@@ -53,20 +87,12 @@ def find_matching_source(target:  Background,
     matching if they have the same name or ID.
     """
     for source in sources:
-        if source["name"] == target["name"]:
+        if source.name == target["name"]:
             return source
-        if "id" in source and source["id"] == target["id"]:
+        if source.id == target["id"]:
             return source
 
     return None
-
-
-def normalize_description(description: str) -> str:
-    """
-    Replaces sequences of two or more line breaks with HTML line breaks
-    and reduces all other whitespace to a single space.
-    """
-    return re.sub(r"\s+", " ", re.sub(r"\n{2,}", "<br>", description))
 
 
 def update_background(target: Background, source: Source|None) -> Background:
@@ -78,14 +104,12 @@ def update_background(target: Background, source: Source|None) -> Background:
         return target
 
     target = target.copy()
-    if "id" in source:
-        target["id"] = source["id"]
-    if "lore" in source:
-        target["lore"] = source["lore"]
-    target["name"] = source["name"]
-    target["traits"] = ", ".join(source["traits"])
-    target["description"] = normalize_description(source["description"])
-    target["src"] = source["src"]
+    target["id"] = source.id or target["id"]
+    target["lore"] = source.lore or target["lore"]
+    target["name"] = source.name
+    target["traits"] = ", ".join(source.traits)
+    target["description"] = source.normalized_description
+    target["src"] = source.src
     return target
 
 
