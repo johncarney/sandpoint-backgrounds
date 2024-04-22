@@ -1,0 +1,83 @@
+---
+- name:   Cathedral Child
+  traits: [Rare]
+  src:    Custom
+  description: |-
+    Choose two ability boosts. One must be to Wisdom or Charisma, and one is a
+    free ability boost.
+
+    You're trained in the Religion skill and the Scribing Lore skill. You gain
+    the Battle Medicine skill feat.
+
+- name:   Curious Apprentice
+  traits: [Rare]
+  src:    Custom
+  description: |-
+    Choose two ability boosts. One must be to Intelligence or Strength, and one
+    is a free ability boost.
+
+    You're trained in the Occultism skill and the Poetry Lore skill. You gain
+    the Hefty Hauler skill feat.
+
+- name:   Eager Scofflaw
+  traits: [Rare]
+  src:    Custom
+  description: |-
+    Choose two ability boosts. One must be to Dexterity or Charisma, and one
+    is a free ability boost.
+
+    You're trained in the Thievery skill and the Underworld Lore skill. You
+    gain the Bon Mot skill feat.
+
+- name:   Lost Coast Local
+  traits: [Rare]
+  lore:   "Hometown"
+  src:    Custom
+  description: |-
+    Choose two ability boosts. One must be to Constitution or Wisdom, and one
+    is a free ability boost.
+
+    You're trained in the Society skill and the Hometown Lore skill. You gain
+    the Hobnobber skill feat.
+
+- name:   Militia Member
+  traits: [Rare]
+  src:    Custom
+  description: |-
+    Choose two ability boosts. One must be to Strength or Wisdom, and one is a
+    free ability boost.
+
+    You're trained in the Athletics skill and the Sailing Lore skill. You gain
+    the Lie to Me skill feat.
+
+- name:   Newcomer
+  traits: [Rare]
+  src:    Custom
+  description: |-
+    Choose two ability boosts. One must be to Constitution or Intelligence,
+    and one is a free ability boost.
+
+    You're trained in the Diplomacy skill and the Library Lore skill. You gain
+    the Additional Lore skill feat—the lore you choose represents the interest
+    and focus of study that drew you to the region.
+
+- name:   Runelord Scholar
+  traits: [Rare]
+  src:    Custom
+  description: |-
+    Choose two ability boosts. One must be to Dexterity or Intelligence, and
+    one is a free ability boost.
+
+    You're trained in the Arcana skill and the Academia Lore skill. You gain
+    the Multilingual skill feat, but one of the languages you gain from this
+    feat must belong to the ancient empire that once occupied this region.
+
+- name:   Scarnetti-Connected
+  traits: [Rare]
+  src:    Custom
+  description: |-
+    Choose two ability boosts. One must be to Charisma or Dexterity, and one is
+    a free ability boost.
+
+    You're trained in the Intimidation skill and the Mercantile Lore skill. You
+    gain the Charming Liar skill feat.
