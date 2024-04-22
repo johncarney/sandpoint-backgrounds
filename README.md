@@ -46,7 +46,7 @@ free ability boost.
 You’re trained in the Thievery skill and the Underworld Lore skill. You gain the
 Bon Mot skill feat.
 
-### Coastal Local
+### Lost Coast Local
 
 Choose two ability boosts. One must be to Constitution or Wisdom, and one is a
 free ability boost.
@@ -71,7 +71,7 @@ You're trained in the Diplomacy skill and the Library Lore skill. You gain the
 Additional Lore skill feat—the lore you choose represents the interest and focus
 of study that drew you to the region.
 
-### Student of Ancient History
+### Runelord Scholar
 
 Choose two ability boosts. One must be to Dexterity or Intelligence, and one is
 a free ability boost.
@@ -80,7 +80,7 @@ You're trained in the Arcana skill and the Academia Lore skill. You gain the
 Multilingual skill feat, but one of the languages you gain from this feat must
 belong to the ancient empire that once occupied this region.
 
-### Mob-Connected
+### Scarnetti-Connected
 
 Choose two ability boosts. One must be to Charisma or Dexterity, and one is a
 free ability boost.
