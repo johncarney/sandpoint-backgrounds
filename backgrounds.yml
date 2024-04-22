@@ -31,7 +31,7 @@
 
 - name:   Lost Coast Local
   traits: [Rare]
-  lore:   "Hometown"
+  lore:   Sandpoint
   src:    Custom
   description: |-
     Choose two ability boosts. One must be to Constitution or Wisdom, and one

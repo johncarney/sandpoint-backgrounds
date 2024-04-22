@@ -51,7 +51,7 @@ Bon Mot skill feat.
 Choose two ability boosts. One must be to Constitution or Wisdom, and one is a
 free ability boost.
 
-You're trained in the Society skill and the Hometown Lore skill. You gain the
+You're trained in the Society skill and the Sandpoint Lore skill. You gain the
 Hobnobber skill feat.
 
 ### Militia Member

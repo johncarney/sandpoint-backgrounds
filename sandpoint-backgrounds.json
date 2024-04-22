@@ -50,7 +50,7 @@
       "boost_ref_2": "4",
       "freeFeatID": "GENERAL_Hobnobber",
       "skill": "Society",
-      "lore": "Hometown",
+      "lore": "Sandpoint",
       "description": "Choose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.<br>You're trained in the Society skill and the Hometown Lore skill. You gain the Hobnobber skill feat.",
       "src": "Custom"
     },
