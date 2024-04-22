@@ -1,6 +1,6 @@
 {
   "customPackID": "bb0119bb-78fa-4a01-b537-487294f6007e",
-  "customPackName": "Seven Dooms for Sandpoint Backgrounds",
+  "customPackName": "Hometown Backgrounds",
   "listCustomBackgrounds": [
     {
       "databaseID": 1,
@@ -25,7 +25,7 @@
       "freeFeatID": "GENERAL_Hefty Hauler",
       "skill": "Occultism",
       "lore": "Poetry",
-      "description": "Visitors to your Your hometown are often pleasantly surprised to find that it has a wide array of shops and services. This is despite the number of disasters it has suffered over the past several decades\u2014fires, raids, and even tsunamis.<br>Growing up in a town with so many businesses, you have never lacked for employment opportunities and whether prompted by your parents, or on your own, you took an an apprenticeship with a respected local artisan. However, lately you have found yourself drawn to the adventuring life. It's not just the piles of cash adventurers seem to come across, but the opportunity to discover and study strange and occult mysteries.<br>Choose two ability boosts. One must be to Intelligence or Strength, and one is a free ability boost.<br>You're trained in the Occultism skill and the Poetry Lore skill. You gain the Hefty Hauler skill feat.",
+      "description": "Visitors to your hometown are often pleasantly surprised to find that it has a wide array of shops and services. This is despite the number of disasters it has suffered over the past several decades\u2014fires, raids, and even tsunamis.<br>Growing up in a town with so many businesses, you have never lacked for employment opportunities. Whether prompted by your parents, or of your own volition, you took an an apprenticeship with a respected local artisan. However, lately you have found yourself drawn to the adventuring life. It's not just the piles of cash adventurers seem to come across, but the opportunity to discover and study strange and occult mysteries.<br>Choose two ability boosts. One must be to Intelligence or Strength, and one is a free ability boost.<br>You're trained in the Occultism skill and the Poetry Lore skill. You gain the Hefty Hauler skill feat.",
       "src": "Custom"
     },
     {
