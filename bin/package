@@ -17,6 +17,7 @@ class Source:
     description: str
     src:         str           = field(default="Custom")
 
+
     @property
     def normalized_description(self) -> str:
         """
@@ -24,6 +25,14 @@ class Source:
         and reduces all other whitespace to a single space.
         """
         return re.sub(r"\s+", " ", re.sub(r"\n{2,}", "<br>", self.description))
+
+
+    @staticmethod
+    def load(filepath: str) -> list["Source"]:
+        """Loads source backgrounds from the given YAML file."""
+        with open(filepath, "r", encoding="utf-8") as file:
+            sources = [Source(**attrs) for attrs in yaml.safe_load(file)]
+        return sources
 
 
 @dataclass(kw_only=True)
@@ -41,6 +50,41 @@ class Background:
     src:         str
 
 
+    def find_matching_source(self, sources: list[Source]) -> Source|None:
+        """
+        Looks for a matching source background in the given list. If no
+        match is found, it returns None. A source is considered if it
+        has the same name or ID.
+        """
+
+        for source in sources:
+            if source.name == self.name:
+                return source
+            if source.id == self.id:
+                return source
+
+        return None
+
+
+    def update_from_sources(self, sources: list[Source]):
+        """
+        Updates the backgfound from the first matching source in the
+        given list. If no match is found, the background is left
+        unchanged.
+        """
+
+        source = self.find_matching_source(sources)
+        if source is None:
+            return
+
+        self.id = source.id or self.id
+        self.lore = source.lore or self.lore
+        self.name = source.name
+        self.traits = ", ".join(source.traits)
+        self.description = source.normalized_description
+        self.src = source.src
+
+
 @dataclass(kw_only=True)
 class BackgroundPack:
     customPackID:          str
@@ -48,85 +92,28 @@ class BackgroundPack:
     listCustomBackgrounds: list[Background]
 
 
-def load_sources(filepath: str) -> list[Source]:
-    """Loads source backgrounds from the given YAML file."""
-    with open(filepath, "r", encoding="utf-8") as file:
-        sources = [Source(**attrs) for attrs in yaml.safe_load(file)]
-    return sources
+    @staticmethod
+    def load(filepath: str) -> "BackgroundPack":
+        """Loads a backgrounds pack from the given JSON file."""
+        with open(filepath, "r", encoding="utf-8") as file:
+            pack = json.load(file)
+            pack["listCustomBackgrounds"] = [
+                Background(**background)
+                for background in pack["listCustomBackgrounds"]
+            ]
+        return BackgroundPack(**pack)
 
 
-def load_pack(filepath: str) -> BackgroundPack:
-    """Loads a backgrounds pack from the given JSON file."""
-    with open(filepath, "r", encoding="utf-8") as file:
-        pack = json.load(file)
-        pack["listCustomBackgrounds"] = [
-            Background(**background)
-            for background in pack["listCustomBackgrounds"]
-        ]
-    return BackgroundPack(**pack)
-
-
-def find_matching_source(target:  Background,
-                         sources: list[Source]) -> Source|None:
-    """
-    Looks for a source background that matches the target background.
-    If no match is found, it returns None. Backgrounds are considered
-    matching if they have the same name or ID.
-    """
-    for source in sources:
-        if source.name == target.name:
-            return source
-        if source.id == target.id:
-            return source
-
-    return None
-
-
-def update_background(target: Background, source: Source|None) -> Background:
-    """
-    Returns a copy of the target background that incorporates changes
-    from the source background.
-    """
-    if source is None:
-        return target
-
-    target.id = source.id or target.id
-    target.lore = source.lore or target.lore
-    target.name = source.name
-    target.traits = ", ".join(source.traits)
-    target.description = source.normalized_description
-    target.src = source.src
-    return target
-
-
-def update_background_from_sources(target:  Background,
-                                   sources: list[Source]) -> Background:
-    """
-    Searches for a source background that matches the target background
-    and returns the updated target.
-    """
-    return update_background(target, find_matching_source(target, sources))
-
-
-def update_backgrounds(sources: list[Source],
-                       pack:    list[Background] ) -> list[Background]:
-    """
-    Updates the backgrounds in the pack with information from the
-    source backgrounds.
-    """
-    return [
-        update_background_from_sources(background, sources)
-        for background in pack
-    ]
+    def update_from_sources(self, sources: list[Source]):
+        """Updates all backgrounds in the pack from the given sources."""
+        for background in self.listCustomBackgrounds:
+            background.update_from_sources(sources)
 
 
 def main():
-    sources = load_sources("backgrounds.yml")
-    pack = load_pack("sandpoint-backgrounds.json")
-    pack.listCustomBackgrounds = update_backgrounds(
-        sources,
-        pack.listCustomBackgrounds
-    )
+    sources = Source.load("backgrounds.yml")
+    pack = BackgroundPack.load("sandpoint-backgrounds.json")
+    pack.update_from_sources(sources)
     print(json.dumps(asdict(pack), indent=2))
 
 
