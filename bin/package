@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from typing import TypedDict, NotRequired, Optional
-from dataclasses import dataclass, field
+from typing import Optional
+from dataclasses import dataclass, field, asdict
 
 import json
 import re
@@ -26,21 +26,8 @@ class Source:
         return re.sub(r"\s+", " ", re.sub(r"\n{2,}", "<br>", self.description))
 
 
-Background = TypedDict("Background", {
-    "databaseID":  int,
-    "id":          str,
-    "name":        str,
-    "traits":      str,
-    "boost_ref_1": str,
-    "boost_ref_2": str,
-    "freeFeatID":  str,
-    "skill":       str,
-    "lore":        str,
-    "description": str,
-    "src":         str })
-
 @dataclass(kw_only=True)
-class BG:
+class Background:
     databaseID:  int
     id:          str
     name:        str
@@ -53,16 +40,12 @@ class BG:
     description: str
     src:         str
 
-BackgroundPack = TypedDict("BackgroundPack", {
-    "customPackID":          str,
-    "customPackName":        str,
-    "listCustomBackgrounds": list[Background] })
 
-@dataclass
-class BGPack:
+@dataclass(kw_only=True)
+class BackgroundPack:
     customPackID:          str
     customPackName:        str
-    listCustomBackgrounds: list[BG]
+    listCustomBackgrounds: list[Background]
 
 
 def load_sources(filepath: str) -> list[Source]:
@@ -76,7 +59,11 @@ def load_pack(filepath: str) -> BackgroundPack:
     """Loads a backgrounds pack from the given JSON file."""
     with open(filepath, "r", encoding="utf-8") as file:
         pack = json.load(file)
-    return pack
+        pack["listCustomBackgrounds"] = [
+            Background(**background)
+            for background in pack["listCustomBackgrounds"]
+        ]
+    return BackgroundPack(**pack)
 
 
 def find_matching_source(target:  Background,
@@ -87,9 +74,9 @@ def find_matching_source(target:  Background,
     matching if they have the same name or ID.
     """
     for source in sources:
-        if source.name == target["name"]:
+        if source.name == target.name:
             return source
-        if source.id == target["id"]:
+        if source.id == target.id:
             return source
 
     return None
@@ -103,13 +90,12 @@ def update_background(target: Background, source: Source|None) -> Background:
     if source is None:
         return target
 
-    target = target.copy()
-    target["id"] = source.id or target["id"]
-    target["lore"] = source.lore or target["lore"]
-    target["name"] = source.name
-    target["traits"] = ", ".join(source.traits)
-    target["description"] = source.normalized_description
-    target["src"] = source.src
+    target.id = source.id or target.id
+    target.lore = source.lore or target.lore
+    target.name = source.name
+    target.traits = ", ".join(source.traits)
+    target.description = source.normalized_description
+    target.src = source.src
     return target
 
 
@@ -137,11 +123,11 @@ def update_backgrounds(sources: list[Source],
 def main():
     sources = load_sources("backgrounds.yml")
     pack = load_pack("sandpoint-backgrounds.json")
-    pack["listCustomBackgrounds"] = update_backgrounds(
+    pack.listCustomBackgrounds = update_backgrounds(
         sources,
-        pack["listCustomBackgrounds"]
+        pack.listCustomBackgrounds
     )
-    print(json.dumps(pack, indent=2))
+    print(json.dumps(asdict(pack), indent=2))
 
 
 if __name__ == "__main__":
