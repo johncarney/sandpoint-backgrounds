@@ -8,11 +8,11 @@ from dataclasses import asdict
 
 import json
 
-from pathbuilder2e import Source, Pack
+from pathbuilder2e import BackgroundSource, Pack
 
 
 def main():
-    sources = Source.load("backgrounds.yml")
+    sources = BackgroundSource.load("backgrounds.yml")
     pack = Pack.load("sandpoint-backgrounds.json")
     pack.update_from_sources(sources)
     print(json.dumps(asdict(pack), indent=2))

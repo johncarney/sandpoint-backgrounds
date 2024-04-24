@@ -14,7 +14,7 @@ WHITESPACE: re.Pattern[str]      = re.compile(r"\s+")
 
 
 @dataclass(eq=True, frozen=True, kw_only=True)
-class Source:
+class BackgroundSource:
     """
     Represents a source background.
 
@@ -49,7 +49,7 @@ class Source:
 
 
     @staticmethod
-    def load(filepath: str) -> list["Source"]:
+    def load(filepath: str) -> list["BackgroundSource"]:
         """
         Loads source backgrounds from the given YAML file.
 
@@ -57,11 +57,11 @@ class Source:
             filepath (str): Path to the YAML file to load.
 
         Returns:
-            list[Source]: List of loaded source backgrounds.
+            list[BackgroundSource]: List of loaded source backgrounds.
         """
 
         with open(filepath, "r", encoding="utf-8") as file:
-            sources = [Source(**attrs) for attrs in yaml.safe_load(file)]
+            sources = [BackgroundSource(**attrs) for attrs in yaml.safe_load(file)]
         return sources
 
 
@@ -96,17 +96,17 @@ class Background:  # pylint: disable=too-many-instance-attributes
     src:         str
 
 
-    def find_matching_source(self, sources: list[Source]) -> Source|None:
+    def find_matching_source(self, sources: list[BackgroundSource]) -> BackgroundSource|None:
         """
         Looks for a matching source background in the given list. If no
         match is found, it returns None. A source is considered if it
         has the same name or ID.
 
         Parameters:
-            sources (list[Source]): List of Source objects to search.
+            sources (list[BackgroundSource]): List of BackgroundSource objects to search.
 
         Returns:
-            Source|None: The first matching source or None if no match is found.
+            BackgroundSource|None: The first matching source or None if no match is found.
         """
 
         for source in sources:
@@ -118,14 +118,14 @@ class Background:  # pylint: disable=too-many-instance-attributes
         return None
 
 
-    def updated_from_sources(self, sources: list[Source]):
+    def updated_from_sources(self, sources: list[BackgroundSource]):
         """
         Returns a copy of this background updated from the first
         matching source background in the given list. If no match is
         found, the background is returned unchanged.
 
         Parameters:
-            sources (list[Source]): List of Source objects to search.
+            sources (list[BackgroundSource]): List of BackgroundSource objects to search.
 
         Returns:
             The updated background.
@@ -183,12 +183,12 @@ class Pack:
         return Pack(**pack)
 
 
-    def update_from_sources(self, sources: list[Source]):
+    def update_from_sources(self, sources: list[BackgroundSource]):
         """
         Updates all backgrounds in the pack from the given sources.
 
         Parameters:
-            sources (list[Source]): List of Source objects to search.
+            sources (list[BackgroundSource]): List of BackgroundSource objects to search.
 
         Returns:
             None
