@@ -14,7 +14,7 @@ from pathbuilder2e import BackgroundSource, Pack
 def main():
     sources = BackgroundSource.load("backgrounds.yml")
     pack = Pack.load("sandpoint-backgrounds.json")
-    pack.update_from_sources(sources)
+    pack = pack.updated_from_background_sources(sources)
     print(json.dumps(asdict(pack), indent=2))
 
 
